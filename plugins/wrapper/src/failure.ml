@@ -17,6 +17,7 @@ let register ~register_name e =
   [%expr [%e e] |> Ortac_runtime.Errors.register [%e register_name]]
 
 let violated_condition kind ~term ~register_name =
+  let kind = term_kind kind in
   [%expr
     Ortac_runtime.Violated_condition
       { term = [%e eterm term]; term_kind = [%e kind] }]
@@ -27,10 +28,6 @@ let violated_invariant kind ~term ~register_name =
     Ortac_runtime.Violated_invariant
       { term = [%e eterm term]; position = [%e kind] }]
   |> register ~register_name
-
-let violated kind = match kind with
-  | `Pre | `Post -> violated_condition (term_kind kind)
-  | _ -> violated_invariant (term_kind kind)
 
 let violated_axiom ~register_name =
   register ~register_name [%expr Ortac_runtime.Violated_axiom]

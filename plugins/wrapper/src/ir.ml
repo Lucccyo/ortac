@@ -23,7 +23,7 @@ type type_ = {
   name : string;
   loc : Location.t;
   ghost : Gospel.Tast.ghost;
-  models : (string * bool) list;
+  models : (string * Gospel.Identifier.Ident.t * bool) list;
   invariants : invariant list;
   equality : (expression, W.t) result;
   comparison : (expression, W.t) result;
